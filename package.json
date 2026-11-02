@@ -1,0 +1,17 @@
+{
+  "name": "skillmatch-backend",
+  "version": "1.0.0",
+  "description": "API do SkillMatch",
+  "scripts": {
+    "start": "node server.js",
+    "local": "node --env-file=.env server.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "pg": "^8.13.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

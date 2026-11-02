@@ -1,0 +1,85 @@
+{
+  "habilidades": [
+    { "id": "html", "nome": "HTML", "categoria": "Tecnologia" },
+    { "id": "css", "nome": "CSS", "categoria": "Tecnologia" },
+    { "id": "javascript", "nome": "JavaScript", "categoria": "Tecnologia" },
+    { "id": "git", "nome": "Git e GitHub", "categoria": "Tecnologia" },
+    { "id": "sql", "nome": "SQL", "categoria": "Tecnologia" },
+    { "id": "python", "nome": "Python", "categoria": "Tecnologia" },
+    { "id": "excel", "nome": "Excel", "categoria": "Ferramentas" },
+    { "id": "pacote-office", "nome": "Pacote Office", "categoria": "Ferramentas" },
+    { "id": "power-bi", "nome": "Power BI", "categoria": "Ferramentas" },
+    { "id": "redes-sociais", "nome": "Gestão de redes sociais", "categoria": "Marketing" },
+    { "id": "canva", "nome": "Canva", "categoria": "Ferramentas" },
+    { "id": "redacao", "nome": "Redação e escrita", "categoria": "Comunicação" },
+    { "id": "comunicacao", "nome": "Comunicação", "categoria": "Comportamental" },
+    { "id": "trabalho-equipe", "nome": "Trabalho em equipe", "categoria": "Comportamental" },
+    { "id": "organizacao", "nome": "Organização", "categoria": "Comportamental" },
+    { "id": "resolucao-problemas", "nome": "Resolução de problemas", "categoria": "Comportamental" },
+    { "id": "atendimento", "nome": "Atendimento ao cliente", "categoria": "Comportamental" },
+    { "id": "ingles", "nome": "Inglês básico", "categoria": "Idiomas" },
+    { "id": "manutencao-pc", "nome": "Manutenção de computadores", "categoria": "Tecnologia" },
+    { "id": "redes", "nome": "Redes de computadores", "categoria": "Tecnologia" }
+  ],
+
+  "vagas": [
+    {
+      "id": 1,
+      "titulo": "Desenvolvedor(a) Front-end Júnior",
+      "empresa": "Empresa fictícia A",
+      "descricao": "Criar e manter páginas web responsivas junto com a equipe de desenvolvimento.",
+      "requisitos": ["html", "css", "javascript", "git", "trabalho-equipe"]
+    },
+    {
+      "id": 2,
+      "titulo": "Assistente Administrativo(a)",
+      "empresa": "Empresa fictícia B",
+      "descricao": "Apoiar a rotina do escritório, organizar documentos e controlar planilhas.",
+      "requisitos": ["excel", "pacote-office", "organizacao", "comunicacao", "atendimento"]
+    },
+    {
+      "id": 3,
+      "titulo": "Analista de Dados Júnior",
+      "empresa": "Empresa fictícia C",
+      "descricao": "Coletar, organizar e apresentar dados em relatórios e painéis.",
+      "requisitos": ["sql", "excel", "power-bi", "python", "resolucao-problemas"]
+    },
+    {
+      "id": 4,
+      "titulo": "Técnico(a) de Suporte (Help Desk)",
+      "empresa": "Empresa fictícia D",
+      "descricao": "Atender chamados, resolver problemas de computadores e orientar usuários.",
+      "requisitos": ["manutencao-pc", "redes", "atendimento", "resolucao-problemas", "comunicacao"]
+    },
+    {
+      "id": 5,
+      "titulo": "Auxiliar de Marketing Digital",
+      "empresa": "Empresa fictícia E",
+      "descricao": "Produzir conteúdos e acompanhar o desempenho das redes sociais da empresa.",
+      "requisitos": ["redes-sociais", "canva", "redacao", "comunicacao", "ingles"]
+    }
+  ],
+
+  "recursos": [
+    { "habilidade": "html", "titulo": "Guia de HTML (MDN)", "url": "https://developer.mozilla.org/pt-BR/docs/Learn/HTML" },
+    { "habilidade": "css", "titulo": "Guia de CSS (MDN)", "url": "https://developer.mozilla.org/pt-BR/docs/Learn/CSS" },
+    { "habilidade": "javascript", "titulo": "Guia de JavaScript (MDN)", "url": "https://developer.mozilla.org/pt-BR/docs/Learn/JavaScript" },
+    { "habilidade": "git", "titulo": "Livro Pro Git (gratuito)", "url": "https://git-scm.com/book/pt-br/v2" },
+    { "habilidade": "sql", "titulo": "Curso de SQL - freeCodeCamp", "url": "https://www.freecodecamp.org/" },
+    { "habilidade": "python", "titulo": "Curso de Python - Curso em Vídeo", "url": "https://www.cursoemvideo.com/" },
+    { "habilidade": "excel", "titulo": "Excel - Fundação Bradesco (Escola Virtual)", "url": "https://www.ev.org.br/" },
+    { "habilidade": "pacote-office", "titulo": "Cursos de Office - Fundação Bradesco (Escola Virtual)", "url": "https://www.ev.org.br/" },
+    { "habilidade": "power-bi", "titulo": "Treinamentos de Power BI - Microsoft Learn", "url": "https://learn.microsoft.com/pt-br/training/powerplatform/power-bi" },
+    { "habilidade": "redes-sociais", "titulo": "Marketing digital - Google Ateliê Digital", "url": "https://grow.google/intl/pt-br/" },
+    { "habilidade": "canva", "titulo": "Canva Design School", "url": "https://www.canva.com/pt_br/aprenda/" },
+    { "habilidade": "redacao", "titulo": "Cursos de comunicação escrita - Fundação Bradesco", "url": "https://www.ev.org.br/" },
+    { "habilidade": "comunicacao", "titulo": "Cursos de comunicação - Fundação Bradesco", "url": "https://www.ev.org.br/" },
+    { "habilidade": "trabalho-equipe", "titulo": "Cursos comportamentais - Fundação Bradesco", "url": "https://www.ev.org.br/" },
+    { "habilidade": "organizacao", "titulo": "Cursos de gestão do tempo - Fundação Bradesco", "url": "https://www.ev.org.br/" },
+    { "habilidade": "resolucao-problemas", "titulo": "Cursos comportamentais - Fundação Bradesco", "url": "https://www.ev.org.br/" },
+    { "habilidade": "atendimento", "titulo": "Cursos de atendimento - Fundação Bradesco", "url": "https://www.ev.org.br/" },
+    { "habilidade": "ingles", "titulo": "Duolingo (gratuito)", "url": "https://www.duolingo.com/" },
+    { "habilidade": "manutencao-pc", "titulo": "Cursos de informática - Fundação Bradesco", "url": "https://www.ev.org.br/" },
+    { "habilidade": "redes", "titulo": "Cursos de redes - Cisco Networking Academy", "url": "https://www.netacad.com/" }
+  ]
+}
