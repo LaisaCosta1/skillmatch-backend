@@ -1,4 +1,4 @@
--- SkillMatch: criação do banco de dados (PostgreSQL)
+-- SkillMatch: banco de dados (PostgreSQL) - versão 2, igual ao site
 -- Cole este arquivo inteiro no SQL Editor do Supabase e clique em Run.
 -- Pode rodar de novo quando quiser: ele apaga e recria tudo.
 
@@ -9,17 +9,20 @@ DROP TABLE IF EXISTS habilidades;
 
 -- Lista padronizada de habilidades
 CREATE TABLE habilidades (
-  id        TEXT PRIMARY KEY,          -- ex.: 'sql', 'excel'
-  nome      TEXT NOT NULL,             -- ex.: 'SQL', 'Excel'
+  id        TEXT PRIMARY KEY,          -- ex.: 'sql', 'banco-de-dados'
+  nome      TEXT NOT NULL UNIQUE,      -- ex.: 'SQL', 'Banco de dados' (igual ao site)
   categoria TEXT NOT NULL
 );
 
--- Vagas demonstrativas
+-- Vagas e projetos demonstrativos
 CREATE TABLE vagas (
-  id        SERIAL PRIMARY KEY,
-  titulo    TEXT NOT NULL,
-  empresa   TEXT NOT NULL,
-  descricao TEXT NOT NULL
+  id          SERIAL PRIMARY KEY,
+  titulo      TEXT NOT NULL,
+  empresa     TEXT NOT NULL,
+  tipo        TEXT NOT NULL CHECK (tipo IN ('vaga', 'projeto')),
+  modalidade  TEXT NOT NULL CHECK (modalidade IN ('remoto', 'hibrido', 'presencial')),
+  localizacao TEXT NOT NULL,
+  descricao   TEXT NOT NULL
 );
 
 -- Quais habilidades cada vaga exige (liga vagas e habilidades)
@@ -29,99 +32,79 @@ CREATE TABLE vaga_requisitos (
   PRIMARY KEY (vaga_id, habilidade_id)  -- impede requisito repetido
 );
 
--- Cursos e materiais gratuitos para cada habilidade
+-- Materiais gratuitos de estudo para cada habilidade
 CREATE TABLE recursos (
   id            SERIAL PRIMARY KEY,
   habilidade_id TEXT NOT NULL REFERENCES habilidades(id),
   titulo        TEXT NOT NULL,
+  fonte         TEXT NOT NULL,
+  tipo          TEXT NOT NULL,
   url           TEXT NOT NULL
 );
 
 -- ===== Dados =====
 
 INSERT INTO habilidades (id, nome, categoria) VALUES
+  ('javascript', 'JavaScript', 'Tecnologia'),
   ('html', 'HTML', 'Tecnologia'),
   ('css', 'CSS', 'Tecnologia'),
-  ('javascript', 'JavaScript', 'Tecnologia'),
-  ('git', 'Git e GitHub', 'Tecnologia'),
-  ('sql', 'SQL', 'Tecnologia'),
+  ('react', 'React', 'Tecnologia'),
+  ('java', 'Java', 'Tecnologia'),
+  ('spring', 'Spring', 'Tecnologia'),
   ('python', 'Python', 'Tecnologia'),
-  ('excel', 'Excel', 'Ferramentas'),
-  ('pacote-office', 'Pacote Office', 'Ferramentas'),
-  ('power-bi', 'Power BI', 'Ferramentas'),
-  ('redes-sociais', 'Gestão de redes sociais', 'Marketing'),
-  ('canva', 'Canva', 'Ferramentas'),
-  ('redacao', 'Redação e escrita', 'Comunicação'),
+  ('sql', 'SQL', 'Dados'),
+  ('banco-de-dados', 'Banco de dados', 'Dados'),
+  ('analise-de-dados', 'Análise de dados', 'Dados'),
+  ('redes', 'Redes', 'Tecnologia'),
   ('comunicacao', 'Comunicação', 'Comportamental'),
-  ('trabalho-equipe', 'Trabalho em equipe', 'Comportamental'),
-  ('organizacao', 'Organização', 'Comportamental'),
-  ('resolucao-problemas', 'Resolução de problemas', 'Comportamental'),
-  ('atendimento', 'Atendimento ao cliente', 'Comportamental'),
-  ('ingles', 'Inglês básico', 'Idiomas'),
-  ('manutencao-pc', 'Manutenção de computadores', 'Tecnologia'),
-  ('redes', 'Redes de computadores', 'Tecnologia');
+  ('organizacao', 'Organização', 'Comportamental');
 
-INSERT INTO vagas (id, titulo, empresa, descricao) VALUES
-  (1, 'Desenvolvedor(a) Front-end Júnior', 'Empresa fictícia A', 'Criar e manter páginas web responsivas junto com a equipe de desenvolvimento.'),
-  (2, 'Assistente Administrativo(a)', 'Empresa fictícia B', 'Apoiar a rotina do escritório, organizar documentos e controlar planilhas.'),
-  (3, 'Analista de Dados Júnior', 'Empresa fictícia C', 'Coletar, organizar e apresentar dados em relatórios e painéis.'),
-  (4, 'Técnico(a) de Suporte (Help Desk)', 'Empresa fictícia D', 'Atender chamados, resolver problemas de computadores e orientar usuários.'),
-  (5, 'Auxiliar de Marketing Digital', 'Empresa fictícia E', 'Produzir conteúdos e acompanhar o desempenho das redes sociais da empresa.');
+INSERT INTO vagas (id, titulo, empresa, tipo, modalidade, localizacao, descricao) VALUES
+  (1, 'Desenvolvedor Front-end Júnior', 'TechSolutions', 'vaga', 'remoto', 'Remoto', 'Construção de interfaces web responsivas com React em um time ágil.'),
+  (2, 'Analista de Dados Júnior', 'DataBridge', 'vaga', 'hibrido', 'Campinas, SP', 'Análise de dados e criação de dashboards para áreas de negócio.'),
+  (3, 'Desenvolvedor Back-end Júnior', 'CloudWorks', 'vaga', 'presencial', 'São Paulo, SP', 'APIs e integração com bancos de dados.'),
+  (4, 'Projeto: Site para ONG local', 'Impacto Social', 'projeto', 'remoto', 'Remoto', 'Projeto voluntário para criar o site institucional de uma ONG.'),
+  (5, 'Suporte Técnico N1', 'HelpDesk Pro', 'vaga', 'hibrido', 'São Paulo, SP', 'Atendimento e resolução de chamados de primeiro nível.');
 
--- Faz o próximo id automático continuar depois do 5
+-- Faz o próximo id automático continuar depois do último
 SELECT setval('vagas_id_seq', (SELECT MAX(id) FROM vagas));
 
 INSERT INTO vaga_requisitos (vaga_id, habilidade_id) VALUES
+  (1, 'javascript'),
   (1, 'html'),
   (1, 'css'),
-  (1, 'javascript'),
-  (1, 'git'),
-  (1, 'trabalho-equipe'),
-  (2, 'excel'),
-  (2, 'pacote-office'),
-  (2, 'organizacao'),
-  (2, 'comunicacao'),
-  (2, 'atendimento'),
-  (3, 'sql'),
-  (3, 'excel'),
-  (3, 'power-bi'),
-  (3, 'python'),
-  (3, 'resolucao-problemas'),
-  (4, 'manutencao-pc'),
-  (4, 'redes'),
-  (4, 'atendimento'),
-  (4, 'resolucao-problemas'),
+  (1, 'react'),
+  (1, 'comunicacao'),
+  (2, 'python'),
+  (2, 'sql'),
+  (2, 'analise-de-dados'),
+  (3, 'java'),
+  (3, 'spring'),
+  (3, 'banco-de-dados'),
+  (4, 'html'),
+  (4, 'css'),
   (4, 'comunicacao'),
-  (5, 'redes-sociais'),
-  (5, 'canva'),
-  (5, 'redacao'),
   (5, 'comunicacao'),
-  (5, 'ingles');
+  (5, 'redes'),
+  (5, 'organizacao');
 
-INSERT INTO recursos (habilidade_id, titulo, url) VALUES
-  ('html', 'Guia de HTML (MDN)', 'https://developer.mozilla.org/pt-BR/docs/Learn/HTML'),
-  ('css', 'Guia de CSS (MDN)', 'https://developer.mozilla.org/pt-BR/docs/Learn/CSS'),
-  ('javascript', 'Guia de JavaScript (MDN)', 'https://developer.mozilla.org/pt-BR/docs/Learn/JavaScript'),
-  ('git', 'Livro Pro Git (gratuito)', 'https://git-scm.com/book/pt-br/v2'),
-  ('sql', 'Curso de SQL - freeCodeCamp', 'https://www.freecodecamp.org/'),
-  ('python', 'Curso de Python - Curso em Vídeo', 'https://www.cursoemvideo.com/'),
-  ('excel', 'Excel - Fundação Bradesco (Escola Virtual)', 'https://www.ev.org.br/'),
-  ('pacote-office', 'Cursos de Office - Fundação Bradesco (Escola Virtual)', 'https://www.ev.org.br/'),
-  ('power-bi', 'Treinamentos de Power BI - Microsoft Learn', 'https://learn.microsoft.com/pt-br/training/powerplatform/power-bi'),
-  ('redes-sociais', 'Marketing digital - Google Ateliê Digital', 'https://grow.google/intl/pt-br/'),
-  ('canva', 'Canva Design School', 'https://www.canva.com/pt_br/aprenda/'),
-  ('redacao', 'Cursos de comunicação escrita - Fundação Bradesco', 'https://www.ev.org.br/'),
-  ('comunicacao', 'Cursos de comunicação - Fundação Bradesco', 'https://www.ev.org.br/'),
-  ('trabalho-equipe', 'Cursos comportamentais - Fundação Bradesco', 'https://www.ev.org.br/'),
-  ('organizacao', 'Cursos de gestão do tempo - Fundação Bradesco', 'https://www.ev.org.br/'),
-  ('resolucao-problemas', 'Cursos comportamentais - Fundação Bradesco', 'https://www.ev.org.br/'),
-  ('atendimento', 'Cursos de atendimento - Fundação Bradesco', 'https://www.ev.org.br/'),
-  ('ingles', 'Duolingo (gratuito)', 'https://www.duolingo.com/'),
-  ('manutencao-pc', 'Cursos de informática - Fundação Bradesco', 'https://www.ev.org.br/'),
-  ('redes', 'Cursos de redes - Cisco Networking Academy', 'https://www.netacad.com/');
+INSERT INTO recursos (habilidade_id, titulo, fonte, tipo, url) VALUES
+  ('javascript', 'JavaScript do zero', 'freeCodeCamp', 'Curso', 'https://www.freecodecamp.org/portuguese/news/o-manual-de-javascript-para-iniciantes/'),
+  ('html', 'HTML para iniciantes', 'freeCodeCamp', 'Curso', 'https://youtu.be/sj0p9O85AIg?si=9Ni9pWihd790yzXz'),
+  ('css', 'CSS responsivo', 'freeCodeCamp', 'Curso', 'https://www.freecodecamp.org/portuguese/news/como-tornar-seu-html-responsivo-adicionando-uma-unica-linha-de-css/'),
+  ('react', 'React para iniciantes', 'YouTube', 'Vídeo', 'https://youtu.be/hd2B7XQAFls?si=qcji3uQvE7S79SwK'),
+  ('comunicacao', 'Comunicação no trabalho', 'Gupy', 'Artigo', 'https://www.gupy.io/blog/comunicacao-no-trabalho'),
+  ('python', 'Python básico', 'Curso gratuito', 'Curso', 'https://youtu.be/S9uPNppGsGo?si=Yc9Hqq4ulJYNuhmR'),
+  ('sql', 'Introdução a SQL', 'Khan Academy', 'Curso', 'https://pt.khanacademy.org/search?referer=%2F&page_search_query=Introdu%C3%A7%C3%A3o+a+SQL'),
+  ('analise-de-dados', 'Análise de dados básica', 'Curso gratuito', 'Curso', 'https://youtu.be/sxfYjczPOe8?si=5UoiUqxtxu2ym4kJ'),
+  ('java', 'Java para iniciantes', 'Curso gratuito', 'Curso', 'https://www.freecodecamp.org/learn/javascript-v9/'),
+  ('spring', 'Spring Boot primeiros passos', 'Documentação oficial', 'Guia', 'https://spring.io/guides/gs/spring-boot'),
+  ('banco-de-dados', 'Modelagem de banco de dados', 'Curso gratuito', 'Curso', 'https://youtu.be/Q_KTYFgvu1s?si=RTV3axkMsUuCi-fu'),
+  ('redes', 'Redes de computadores', 'Curso gratuito', 'Curso', 'https://youtu.be/QkMbqL8QD9w?si=xJf-CrdTl8SW5WN4'),
+  ('organizacao', 'Gestão do tempo', 'Curso gratuito', 'Artigo', 'https://pepsic.bvsalud.org/pdf/psie/n47/n47a08.pdf');
 
 -- Segurança: bloqueia o acesso às tabelas pela API automática do Supabase.
--- A nossa API (server.js) continua funcionando, porque conecta como dono do banco.
+-- A nossa API (server.js) continua funcionando, porque conecta como dona do banco.
 ALTER TABLE habilidades     ENABLE ROW LEVEL SECURITY;
 ALTER TABLE vagas           ENABLE ROW LEVEL SECURITY;
 ALTER TABLE vaga_requisitos ENABLE ROW LEVEL SECURITY;

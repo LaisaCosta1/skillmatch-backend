@@ -41,11 +41,18 @@ app.get("/api/habilidades", async (req, res, next) => {
   }
 });
 
-// Lista todas as vagas (resumo)
+// Lista todas as vagas, já com os requisitos (nomes iguais aos do site)
 app.get("/api/vagas", async (req, res, next) => {
   try {
     const r = await banco.query(
-      "SELECT id, titulo, empresa FROM vagas ORDER BY id"
+      `SELECT v.id, v.titulo, v.empresa, v.tipo, v.modalidade, v.localizacao, v.descricao,
+              COALESCE(json_agg(json_build_object('id', h.id, 'nome', h.nome) ORDER BY h.nome)
+                       FILTER (WHERE h.id IS NOT NULL), '[]') AS requisitos
+         FROM vagas v
+         LEFT JOIN vaga_requisitos vr ON vr.vaga_id = v.id
+         LEFT JOIN habilidades h ON h.id = vr.habilidade_id
+        GROUP BY v.id
+        ORDER BY v.id`
     );
     res.json(r.rows);
   } catch (erro) {
@@ -64,7 +71,7 @@ app.get("/api/vagas/:id", async (req, res, next) => {
 
   try {
     const vaga = await banco.query(
-      "SELECT id, titulo, empresa, descricao FROM vagas WHERE id = $1",
+      "SELECT id, titulo, empresa, tipo, modalidade, localizacao, descricao FROM vagas WHERE id = $1",
       [id]
     );
     if (vaga.rows.length === 0) {
@@ -93,11 +100,11 @@ app.get("/api/recursos", async (req, res, next) => {
   try {
     const r = habilidade
       ? await banco.query(
-          "SELECT habilidade_id AS habilidade, titulo, url FROM recursos WHERE habilidade_id = $1",
+          "SELECT habilidade_id AS habilidade, titulo, fonte, tipo, url FROM recursos WHERE habilidade_id = $1",
           [habilidade]
         )
       : await banco.query(
-          "SELECT habilidade_id AS habilidade, titulo, url FROM recursos ORDER BY habilidade_id"
+          "SELECT habilidade_id AS habilidade, titulo, fonte, tipo, url FROM recursos ORDER BY habilidade_id"
         );
     res.json(r.rows);
   } catch (erro) {
